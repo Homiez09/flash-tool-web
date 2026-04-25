@@ -15,6 +15,7 @@ model User {
   email         String?   @unique
   password      String?
   credits       Int       @default(100)
+  role          String    @default("USER") // "USER" or "ADMIN"
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   transactions  CreditTransaction[]
@@ -28,4 +29,11 @@ model CreditTransaction {
   type        String   // "ADD" or "USE"
   description String?
   createdAt   DateTime @default(now())
+}
+
+model SystemConfig {
+  id          String   @id @default("global")
+  features    Json     // Store feature flags: { "flash": true, "unlock": true, ... }
+  prices      Json     // Store costs: { "flash": 5, "unlock": 10, ... }
+  updatedAt   DateTime @updatedAt
 }

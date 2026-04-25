@@ -1,4 +1,4 @@
-# Project: Flash Tool Pro (v0.5.0 Alpha)
+# Project: Flash Tool Pro (v0.6.0 Alpha)
 
 ## Project Overview
 Flash Tool Pro is a professional, universal web-based mobile repair and flashing utility. It allows technicians to perform software maintenance on mobile devices (e.g., Flash ROM, Unlock Bootloader, Bypass FRP, Fix Bootloop) directly through a web browser using the **WebUSB API**.
@@ -17,55 +17,23 @@ All API endpoints and security protocols are documented in `API.md`.
 
 ---
 
-## Building and Running
-
-### Prerequisites
-- Node.js 20+
-- Docker & Docker Compose (for PostgreSQL)
-- Chrome or Edge Browser (supporting WebUSB)
-
-### Setup Commands
-1. **Clone & Install:**
-   ```bash
-   npm install
-   ```
-2. **Environment Configuration:**
-   ```bash
-   cp .env.example .env
-   # Edit .env with your DATABASE_URL and NEXTAUTH_SECRET
-   ```
-3. **Database Setup:**
-   ```bash
-   docker-compose up -d
-   npx prisma db push
-   ```
-4. **Development Mode:**
-   ```bash
-   npm run dev
-   ```
-5. **Production Build:**
-   ```bash
-   npm run build
-   ```
-
----
-
 ## Roadmap & Progress
 
-### v0.1.0 - v0.4.0 Alpha (Completed)
-- Foundation, Auth, Credit System, WebUSB integration, Chunked Transfer, and Cloud Firmware Sync.
+### v0.1.0 - v0.5.0 Alpha (Completed)
+- Foundation, Auth, Credit System, WebUSB integration, Chunked Transfer, Cloud Firmware Sync, and Console Export.
 
-### v0.5.0 Alpha (Current - Completed)
-- **Advanced Dashboard & History:**
-  - Real Activity History API and UI (No more mocks).
-  - **Console Log Export:** Save terminal output to `.txt` files for documentation.
-  - **Premium UI Overhaul:** Extremely high-end dashboard design with refined typography and spacing.
-  - Enhanced device specifications detection and hardware info card.
-  - Improved "One-Click" tools layout and interaction.
+### v0.6.0 Alpha (Current - Completed)
+- **Admin Management Dashboard:**
+  - Dedicated UI for administrators (`/admin`).
+  - **User Management:** View all users and adjust credits manually (Fix top-up issues).
+  - **System Configuration:** Global feature flags (Enable/Disable features) and dynamic pricing management.
+  - **Role-Based Access Control:** Strict ADMIN/USER separation.
+  - **Database Seeding:** Default admin account (`admin@flashtool.pro` / `12345678`) created during setup.
+- **Integration:** User dashboard now dynamically responds to admin-configured prices and feature availability.
 
-### v0.6.0 Alpha (Planned)
-- Implementation of brand-specific protocols (Odin/Loke for Samsung).
-- Local storage for recent device specs to allow offline review.
+### v0.7.0 Alpha (Planned)
+- Implementation of Samsung-specific protocols (Odin/Loke).
+- Automated Magisk patcher integration.
 
 ### v1.0.0 (Release)
 - Stable release after user verification.

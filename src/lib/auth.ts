@@ -11,7 +11,7 @@ export const authOptions: NextAuthOptions = {
     signIn: "/login",
   },
   secret: process.env.NEXTAUTH_SECRET,
-  debug: true, // Enable debug messages in the console
+  debug: process.env.NODE_ENV === "development",
   providers: [
     CredentialsProvider({
       name: "credentials",
@@ -46,6 +46,7 @@ export const authOptions: NextAuthOptions = {
             email: user.email,
             name: user.name,
             credits: user.credits,
+            role: user.role,
           };
         } catch (error) {
           console.error("Auth authorize error:", error);
@@ -59,6 +60,7 @@ export const authOptions: NextAuthOptions = {
       if (token && session.user) {
         (session.user as any).id = token.id;
         (session.user as any).credits = token.credits;
+        (session.user as any).role = token.role;
       }
       return session;
     },
@@ -66,6 +68,7 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         token.id = user.id;
         token.credits = (user as any).credits;
+        token.role = (user as any).role;
       }
       return token;
     },
