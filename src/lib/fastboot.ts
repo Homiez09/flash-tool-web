@@ -91,6 +91,20 @@ export class FastbootDevice {
   }
 
   /**
+   * Fetch all partitions from device (some devices support getvar:all)
+   */
+  async getPartitions(): Promise<string[]> {
+    const partitions: string[] = [];
+    // This is a simplified logic, real logic involves parsing getvar:all response
+    const commonPartitions = ["boot", "recovery", "system", "vendor", "userdata", "cache", "persist", "efs", "nvram"];
+    for (const p of commonPartitions) {
+      const size = await this.getVariable(`partition-size:${p}`);
+      if (size) partitions.push(p);
+    }
+    return partitions;
+  }
+
+  /**
    * Upload data to the device's RAM with streaming support
    */
   async download(

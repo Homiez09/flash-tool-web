@@ -52,6 +52,27 @@ export class MaintenanceTools {
   }
 
   /**
+   * NEW: System Health & Diagnostics
+   */
+  async getHealthDiagnostics() {
+    const batteryCycle = await this.fb.getVariable("battery-cycle-count") || "N/A";
+    const batteryVoltage = await this.fb.getVariable("battery-voltage") || "N/A";
+    const storageLife = await this.fb.getVariable("storage-life-time") || "N/A";
+    
+    return {
+      battery: { cycle: batteryCycle, voltage: batteryVoltage },
+      storage: { health: storageLife }
+    };
+  }
+
+  /**
+   * NEW: Partition Manager
+   */
+  async listPartitions() {
+    return await this.fb.getPartitions();
+  }
+
+  /**
    * Samsung Specific: Odin Protocol Handshake
    * Note: Samsung uses a different protocol than Fastboot. 
    * This is a placeholder for the specialized Odin handler.
