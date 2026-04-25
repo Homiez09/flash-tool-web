@@ -223,7 +223,7 @@ export default function AdminPage() {
                                 type="number" 
                                 value={config.prices[key]} 
                                 onChange={(e) => setConfig({...config, prices: { ...config.prices, [key]: parseInt(e.target.value) || 0 }})}
-                                className="h-12 pl-12 rounded-xl border-2 border-slate-50 font-black text-slate-900"
+                                className="h-12 pl-12 rounded-xl border border-slate-50 font-black text-slate-900"
                              />
                           </div>
                        </div>

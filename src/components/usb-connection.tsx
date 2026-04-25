@@ -143,7 +143,7 @@ export function USBConnection({ onDeviceConnected }: { onDeviceConnected?: (devi
       </CardHeader>
       <CardContent className="p-6">
         {!device ? (
-          <div className="flex flex-col items-center justify-center border-2 border-dashed rounded-2xl p-12 bg-gray-50/30 transition-all hover:bg-gray-50/50">
+          <div className="flex flex-col items-center justify-center border border-dashed rounded-2xl p-12 bg-gray-50/30 transition-all hover:bg-gray-50/50">
             <div className="bg-white p-4 rounded-full shadow-sm mb-4 border">
               <Smartphone className="w-10 h-10 text-gray-300" />
             </div>

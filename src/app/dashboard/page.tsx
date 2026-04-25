@@ -321,7 +321,7 @@ export default function DashboardPage() {
           {session?.user?.role === "ADMIN" && (
             <button
               onClick={() => router.push("/admin")}
-              className="w-full flex items-center gap-3 px-4 py-3.5 rounded-xl text-xs font-black uppercase tracking-widest text-purple-500 hover:bg-purple-50 cursor-pointer mt-4 border-2 border-dashed border-purple-100"
+              className="w-full flex items-center gap-3 px-4 py-3.5 rounded-xl text-xs font-black uppercase tracking-widest text-purple-500 hover:bg-purple-50 cursor-pointer mt-4 border border-dashed border-purple-100"
             >
               <LockKeyhole className="w-4 h-4" /> Management
             </button>
@@ -354,7 +354,7 @@ export default function DashboardPage() {
                   <h1 className="text-4xl font-black tracking-tighter uppercase leading-none italic">ยินดีต้อนรับ, {session?.user?.name || "ช่างซ่อม"}</h1>
                   <p className="text-gray-500 font-bold text-sm lowercase tracking-tight opacity-70">Flash Tool Pro v0.7.0 (Samsung & Root Ready)</p>
                 </div>
-                <div className="bg-white p-2.5 rounded-2xl shadow-sm border-2 border-green-50 flex items-center gap-3 pr-6">
+                <div className="bg-white p-2.5 rounded-2xl shadow-sm border border-green-50 flex items-center gap-3 pr-6">
                    <div className="bg-green-500 w-3 h-3 rounded-full animate-pulse shadow-[0_0_10px_rgba(34,197,94,0.5)]" />
                    <span className="text-xs font-black text-green-700 uppercase tracking-widest">System: Live</span>
                 </div>
@@ -444,7 +444,7 @@ export default function DashboardPage() {
                     <CardContent className="px-0 py-2">
                       {historyData.slice(0, 5).map((item) => (
                         <div key={item.id} className="flex items-center gap-4 px-8 py-5 hover:bg-gray-50/50 transition-colors">
-                           <div className={cn("p-2 rounded-xl border-2", item.type === "ADD" ? "bg-green-50 text-green-600 border-green-100" : "bg-red-50 text-red-600 border-red-100")}>{item.type === "ADD" ? <PlusCircle className="w-4 h-4" /> : <Zap className="w-4 h-4" />}</div>
+                           <div className={cn("p-2 rounded-xl border", item.type === "ADD" ? "bg-green-50 text-green-600 border-green-100" : "bg-red-50 text-red-600 border-red-100")}>{item.type === "ADD" ? <PlusCircle className="w-4 h-4" /> : <Zap className="w-4 h-4" />}</div>
                            <div className="flex-1 min-w-0">
                               <p className="text-xs font-black uppercase truncate">{item.description}</p>
                               <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">{new Date(item.createdAt).toLocaleDateString()}</p>
@@ -488,14 +488,14 @@ export default function DashboardPage() {
                         <div className="space-y-6 p-10 bg-blue-600/5 border-4 border-dashed border-blue-600/10 rounded-[2.5rem]">
                            <div className="bg-blue-600 p-5 w-fit rounded-2xl mb-2 shadow-xl"><Globe className="w-8 h-8 text-white" /></div>
                            <label className="text-[10px] font-black uppercase text-blue-600 ml-1">Direct Download Link</label>
-                           <Input value={flashUrl} onChange={(e) => setFlashUrl(e.target.value)} placeholder="https://cdn.example.com/v14_firmware.img" className="h-16 pl-6 rounded-2xl border-2 border-blue-100 bg-white focus:ring-8 focus:ring-blue-600/5 font-black text-gray-900" />
+                           <Input value={flashUrl} onChange={(e) => setFlashUrl(e.target.value)} placeholder="https://cdn.example.com/v14_firmware.img" className="h-16 pl-6 rounded-2xl border border-blue-100 bg-white focus:ring-8 focus:ring-blue-600/5 font-black text-gray-900" />
                         </div>
                      )}
 
                      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div className="space-y-3">
                            <label className="text-[10px] font-black uppercase text-gray-400 ml-1">Partition</label>
-                           <select value={partition} onChange={(e) => setPartition(e.target.value)} className="w-full h-16 bg-white border-2 border-gray-100 rounded-2xl px-6 font-black text-xs uppercase outline-none transition-all cursor-pointer focus:border-blue-600 focus:ring-8 focus:ring-blue-600/5">
+                           <select value={partition} onChange={(e) => setPartition(e.target.value)} className="w-full h-16 bg-white border border-gray-100 rounded-2xl px-6 font-black text-xs uppercase outline-none transition-all cursor-pointer focus:border-blue-600 focus:ring-8 focus:ring-blue-600/5">
                               <option value="boot">Boot Partition</option>
                               <option value="recovery">Recovery</option>
                               <option value="system">System (Sparse)</option>
@@ -503,7 +503,7 @@ export default function DashboardPage() {
                         </div>
                         <div className="space-y-3">
                            <label className="text-[10px] font-black uppercase text-gray-400 ml-1">Cost</label>
-                           <div className="h-16 bg-gray-50 border-2 border-gray-100 rounded-2xl px-6 flex items-center justify-between">
+                           <div className="h-16 bg-gray-50 border border-gray-100 rounded-2xl px-6 flex items-center justify-between">
                               <CreditCard className="w-5 h-5 text-blue-600" />
                               <span className="font-black text-gray-900 text-xl tracking-tighter">{sysConfig.prices.flash}.00 <span className="text-[10px] text-gray-400 ml-1 uppercase">Credits</span></span>
                            </div>
@@ -549,14 +549,14 @@ export default function DashboardPage() {
                   {/* Auto Magisk Root Card Refined */}
                   <Card className={cn("hover:shadow-xl transition-all shadow-sm group border border-gray-100 bg-white rounded-3xl overflow-hidden scale-100 hover:scale-[1.01]", !sysConfig.features.root && "opacity-50 grayscale pointer-events-none")}>
                      <CardHeader className="p-6">
-                        <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-4 group-hover:rotate-6 transition-transform border-2 shadow-sm bg-green-50 border-green-100 text-green-600">
+                        <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-4 group-hover:rotate-6 transition-transform border shadow-sm bg-green-50 border-green-100 text-green-600">
                            <ShieldCheck className="w-6 h-6" />
                         </div>
                         <CardTitle className="font-black text-lg tracking-tighter uppercase leading-none mb-2">Magisk Root</CardTitle>
                         <CardDescription className="font-bold text-slate-400 lowercase tracking-tight leading-relaxed text-[10px] line-clamp-1">{flashFile ? flashFile.name : "Select boot.img"}</CardDescription>
                      </CardHeader>
                      <CardContent className="px-6 pb-2 pt-0">
-                        <Button variant="ghost" size="sm" onClick={() => fileInputRef.current?.click()} className="w-full border-2 border-dashed border-gray-100 h-10 text-[9px] font-black uppercase tracking-widest hover:bg-gray-50 rounded-xl cursor-pointer">
+                        <Button variant="ghost" size="sm" onClick={() => fileInputRef.current?.click()} className="w-full border border-dashed border-gray-100 h-10 text-[9px] font-black uppercase tracking-widest hover:bg-gray-50 rounded-xl cursor-pointer">
                            <input type="file" ref={fileInputRef} className="hidden" onChange={(e) => setFile(e.target.files?.[0] || null)} />
                            {flashFile ? "Change Image" : "Choose Image"}
                         </Button>
@@ -649,9 +649,9 @@ function MaintenanceCard({ title, desc, cost, icon: Icon, color, onClick, disabl
     green: "bg-green-600 hover:bg-green-700 shadow-green-100",
   };
   return (
-    <Card className={cn("hover:shadow-xl transition-all shadow-sm group border-2 border-transparent bg-white rounded-3xl overflow-hidden scale-100 hover:scale-[1.01]", disabled && "opacity-50 grayscale pointer-events-none")}>
+    <Card className={cn("hover:shadow-xl transition-all shadow-sm group border border-transparent bg-white rounded-3xl overflow-hidden scale-100 hover:scale-[1.01]", disabled && "opacity-50 grayscale pointer-events-none")}>
       <CardHeader className="p-6">
-        <div className={cn("w-12 h-12 rounded-xl flex items-center justify-center mb-4 group-hover:rotate-6 transition-transform border-2 shadow-sm", colorMap[color])}>
+        <div className={cn("w-12 h-12 rounded-xl flex items-center justify-center mb-4 group-hover:rotate-6 transition-transform border shadow-sm", colorMap[color])}>
           <Icon className="w-6 h-6" />
         </div>
         <CardTitle className="font-black text-lg text-slate-900 tracking-tight uppercase leading-none mb-2">{title}</CardTitle>
