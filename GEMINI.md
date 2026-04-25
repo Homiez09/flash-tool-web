@@ -1,4 +1,4 @@
-# Project: Flash Tool Pro (v0.4.0 Alpha)
+# Project: Flash Tool Pro (v0.5.0 Alpha)
 
 ## Project Overview
 Flash Tool Pro is a professional, universal web-based mobile repair and flashing utility. It allows technicians to perform software maintenance on mobile devices (e.g., Flash ROM, Unlock Bootloader, Bypass FRP, Fix Bootloop) directly through a web browser using the **WebUSB API**.
@@ -52,24 +52,20 @@ All API endpoints and security protocols are documented in `API.md`.
 
 ## Roadmap & Progress
 
-### v0.1.0 Alpha (Completed)
-- Initial foundation, Auth system, Credit UI, and basic WebUSB connection.
+### v0.1.0 - v0.4.0 Alpha (Completed)
+- Foundation, Auth, Credit System, WebUSB integration, Chunked Transfer, and Cloud Firmware Sync.
 
-### v0.2.0 Alpha (Completed)
-- **Flashing Engine:** Chunked transfer for large files, progress tracking, and partition selection.
+### v0.5.0 Alpha (Current - Completed)
+- **Advanced Dashboard & History:**
+  - Real Activity History API and UI (No more mocks).
+  - **Console Log Export:** Save terminal output to `.txt` files for documentation.
+  - **Premium UI Overhaul:** Extremely high-end dashboard design with refined typography and spacing.
+  - Enhanced device specifications detection and hardware info card.
+  - Improved "One-Click" tools layout and interaction.
 
-### v0.3.0 Alpha (Completed)
-- **Automation & Detection:** Auto-detect Chipset, Advanced One-Click Tools (Demo Mode, Cache).
-
-### v0.4.0 Alpha (Current - Completed)
-- **Cloud Firmware Sync:**
-  - Support for flashing firmware directly from a URL/Direct Link.
-  - Streaming data transfer from URL to device (Memory-efficient).
-  - Improved UI for flash method selection (Local File vs URL).
-
-### v0.5.0 Alpha (Planned)
-- Implementation of more brand-specific protocols (Odin for Samsung).
-- Detailed log export and history dashboard.
+### v0.6.0 Alpha (Planned)
+- Implementation of brand-specific protocols (Odin/Loke for Samsung).
+- Local storage for recent device specs to allow offline review.
 
 ### v1.0.0 (Release)
 - Stable release after user verification.
