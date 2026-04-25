@@ -112,7 +112,7 @@ export default function LoginPageClient() {
                 type="email"
                 placeholder="example@mail.com"
                 required
-                className="h-12 rounded-xl border-gray-200 bg-gray-50 focus:bg-white transition-all"
+                className="h-12 rounded-xl border-gray-100 bg-gray-50 focus:bg-white transition-all"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               />
@@ -127,7 +127,7 @@ export default function LoginPageClient() {
                 type="password"
                 placeholder="••••••••"
                 required
-                className="h-12 rounded-xl border-gray-200 bg-gray-50 focus:bg-white transition-all"
+                className="h-12 rounded-xl border-gray-100 bg-gray-50 focus:bg-white transition-all"
                 value={formData.password}
                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
               />

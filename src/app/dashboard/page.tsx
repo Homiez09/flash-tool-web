@@ -328,14 +328,14 @@ export default function DashboardPage() {
           )}
         </nav>
 
-        <div className="p-4 border-t space-y-4">
-          <div className="bg-gray-900 p-5 rounded-2xl shadow-2xl">
+        <div className="p-4 border-t border-gray-100 space-y-4">
+          <div className="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-[10px] font-black text-gray-500 uppercase tracking-widest">Balance</span>
+              <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Balance</span>
               <CreditCard className="w-3 h-3 text-blue-500" />
             </div>
-            <div className="text-2xl font-black text-white tracking-tighter uppercase">{session?.user?.credits || 0} <span className="text-[10px] text-gray-500 ml-1">Credits</span></div>
-            <Button size="sm" variant="outline" className="w-full mt-4 h-9 text-[10px] font-black uppercase tracking-widest rounded-xl border-white/10 text-white cursor-pointer" onClick={handleTopUp} disabled={loading}>
+            <div className="text-2xl font-black text-gray-900 tracking-tighter uppercase">{session?.user?.credits || 0} <span className="text-[10px] text-gray-400 ml-1">Credits</span></div>
+            <Button size="sm" variant="outline" className="w-full mt-4 h-9 text-[10px] font-black uppercase tracking-widest rounded-xl border-gray-100 text-gray-600 hover:bg-gray-50 cursor-pointer" onClick={handleTopUp} disabled={loading}>
               <PlusCircle className="w-3 h-3" /> Top Up
             </Button>
           </div>
@@ -373,7 +373,7 @@ export default function DashboardPage() {
                           </CardTitle>
                         </CardHeader>
                         <CardContent className="flex flex-wrap gap-3 px-8 pb-8">
-                          <Button variant="outline" size="sm" className="gap-2 bg-white rounded-2xl h-12 px-6 font-black text-[10px] uppercase border-gray-200 cursor-pointer shadow-sm hover:shadow-md transition-all" onClick={() => handleMaintenance("unlock", sysConfig.prices.unlock)} disabled={isProcessing || !sysConfig.features.unlock}><Unlock className="w-4 h-4" /> Unlock BL</Button>
+                          <Button variant="outline" size="sm" className="gap-2 bg-white rounded-2xl h-12 px-6 font-black text-[10px] uppercase border-gray-100 cursor-pointer shadow-sm hover:shadow-md transition-all" onClick={() => handleMaintenance("unlock", sysConfig.prices.unlock)} disabled={isProcessing || !sysConfig.features.unlock}><Unlock className="w-4 h-4" /> Unlock BL</Button>
                           <Button variant="outline" size="sm" className="gap-2 bg-white rounded-2xl h-12 px-6 font-black text-[10px] uppercase border-red-100 text-red-700 hover:bg-red-50 cursor-pointer shadow-sm hover:shadow-md transition-all" onClick={() => handleMaintenance("frp", sysConfig.prices.frp)} disabled={isProcessing || !sysConfig.features.frp}><Key className="w-4 h-4" /> Bypass FRP</Button>
                           {deviceSpecs?.chipset === "Samsung" && (
                              <Button variant="outline" size="sm" className="gap-2 bg-white rounded-2xl h-12 px-6 font-black text-[10px] uppercase border-blue-200 text-blue-700 hover:bg-blue-50 cursor-pointer shadow-sm"><RefreshCw className="w-4 h-4" /> Odin Mode</Button>
@@ -581,7 +581,7 @@ export default function DashboardPage() {
             <div className="space-y-10 animate-in fade-in duration-500">
                <div className="flex items-center justify-between">
                   <h2 className="text-4xl font-black text-slate-900 uppercase tracking-tighter leading-none italic">Full Activity Log</h2>
-                  <Button variant="outline" size="sm" onClick={() => setActiveTab("dashboard")} className="font-bold rounded-[1.5rem] cursor-pointer h-12 px-8 uppercase text-[10px] tracking-widest border-slate-200">Back Home</Button>
+                  <Button variant="outline" size="sm" onClick={() => setActiveTab("dashboard")} className="font-bold rounded-[1.5rem] cursor-pointer h-12 px-8 uppercase text-[10px] tracking-widest border-slate-100">Back Home</Button>
                </div>
 
                <Card className="rounded-[3rem] border-2 border-slate-100 shadow-2xl overflow-hidden bg-white">

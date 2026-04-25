@@ -189,7 +189,7 @@ export default function AdminPage() {
                   </CardHeader>
                   <CardContent className="p-8 space-y-4">
                      {Object.keys(config.features).map((key) => (
-                       <div key={key} className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-slate-100">
+                       <div key={key} className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-slate-50">
                           <span className="font-black text-slate-700 uppercase text-xs tracking-widest">{key} Engine</span>
                           <button 
                             onClick={() => setConfig({...config, features: { ...config.features, [key]: !config.features[key] }})}
@@ -223,7 +223,7 @@ export default function AdminPage() {
                                 type="number" 
                                 value={config.prices[key]} 
                                 onChange={(e) => setConfig({...config, prices: { ...config.prices, [key]: parseInt(e.target.value) || 0 }})}
-                                className="h-12 pl-12 rounded-xl border-2 border-slate-100 font-black text-slate-900"
+                                className="h-12 pl-12 rounded-xl border-2 border-slate-50 font-black text-slate-900"
                              />
                           </div>
                        </div>

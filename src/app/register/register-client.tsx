@@ -112,7 +112,7 @@ export default function RegisterPageClient() {
                 id="name"
                 placeholder="ชื่อของคุณ"
                 required
-                className="h-12 rounded-xl border-gray-200 bg-gray-50 focus:bg-white transition-all px-4"
+                className="h-12 rounded-xl border-gray-100 bg-gray-50 focus:bg-white transition-all px-4"
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               />
@@ -124,7 +124,7 @@ export default function RegisterPageClient() {
                 type="email"
                 placeholder="example@mail.com"
                 required
-                className="h-12 rounded-xl border-gray-200 bg-gray-50 focus:bg-white transition-all px-4"
+                className="h-12 rounded-xl border-gray-100 bg-gray-50 focus:bg-white transition-all px-4"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               />
@@ -136,7 +136,7 @@ export default function RegisterPageClient() {
                 type="password"
                 placeholder="ระบุรหัสผ่าน 6 ตัวอักษรขึ้นไป"
                 required
-                className="h-12 rounded-xl border-gray-200 bg-gray-50 focus:bg-white transition-all px-4"
+                className="h-12 rounded-xl border-gray-100 bg-gray-50 focus:bg-white transition-all px-4"
                 value={formData.password}
                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
               />
