@@ -1,9 +1,12 @@
-# Project: Flash Tool Pro
+# Project: Flash Tool Pro (v0.1.0 Alpha)
 
 ## Project Overview
 Flash Tool Pro is a professional, universal web-based mobile repair and flashing utility. It allows technicians to perform software maintenance on mobile devices (e.g., Flash ROM, Unlock Bootloader, Bypass FRP, Fix Bootloop) directly through a web browser using the **WebUSB API**.
 
 > **CRITICAL:** All significant project updates, architectural decisions, and specific user instructions must be documented in this `GEMINI.md` file to maintain context across sessions.
+
+### API Documentation
+All API endpoints and security protocols are documented in `API.md`.
 
 ### Core Technologies
 - **Frontend:** Next.js (App Router), TypeScript, Tailwind CSS, Shadcn UI, Lucide Icons.
@@ -67,8 +70,21 @@ Flash Tool Pro is a professional, universal web-based mobile repair and flashing
 
 ---
 
-## Future Roadmap
-- Implementation of EDL (Qualcomm) and BROM (MediaTek) protocols.
-- Large file flashing support (Chunked streaming over WebUSB).
-- Automated Magisk boot image patching.
-- Real-world payment gateway integration.
+## Future Roadmap (Alpha Versions)
+
+### v0.2.0 (Phase 4: Flashing Engine) - *Current Task*
+- Implement **Chunked Transfer** for large firmware files.
+- Real-time progress tracking (Speed, ETA).
+- Verification logic (Checksum/MD5).
+
+### v0.3.0 (Phase 5: Automation)
+- Auto-detect Chipset (Qualcomm/MTK).
+- Specialized scripts (Remove Demo, Clean Cache).
+
+### v0.4.0 (Cloud & Info)
+- Cloud Storage Sync (Flash from URL/GDrive).
+- Detailed Device Info (Knox, Battery Cycle).
+
+### v1.0.0 (Release)
+- Stable release after user verification.
+- Payment gateway integration.
