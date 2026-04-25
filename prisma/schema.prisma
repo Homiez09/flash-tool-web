@@ -37,3 +37,15 @@ model SystemConfig {
   prices      Json     // Store costs: { "flash": 5, "unlock": 10, ... }
   updatedAt   DateTime @updatedAt
 }
+
+model Firmware {
+  id          String   @id @default(cuid())
+  brand       String
+  model       String
+  version     String
+  region      String
+  size        String
+  url         String
+  type        String   // "Fastboot", "Odin", "Recovery"
+  createdAt   DateTime @default(now())
+}

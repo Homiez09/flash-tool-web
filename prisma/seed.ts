@@ -43,7 +43,7 @@ async function main() {
           flash: true,
           unlock: true,
           frp: true,
-          root: false,
+          root: true,
           demo: true,
           cache: true,
         },
@@ -58,6 +58,43 @@ async function main() {
       },
     });
     console.log("✅ Default system configuration initialized");
+  }
+
+  // 3. Seed some Firmware data
+  const existingFirmware = await prisma.firmware.findMany();
+  if (existingFirmware.length === 0) {
+    await prisma.firmware.createMany({
+      data: [
+        {
+          brand: "Xiaomi",
+          model: "Redmi Note 13 Pro",
+          version: "V14.0.5.0.TNRINXM",
+          region: "India",
+          size: "4.2 GB",
+          type: "Fastboot",
+          url: "https://example.com/firmware/redmi_note_13_pro.img",
+        },
+        {
+          brand: "Samsung",
+          model: "Galaxy S23 Ultra",
+          version: "S918BXXU3AWGJ",
+          region: "Global",
+          size: "8.1 GB",
+          type: "Odin",
+          url: "https://example.com/firmware/s23_ultra_odin.tar",
+        },
+        {
+          brand: "Google",
+          model: "Pixel 8 Pro",
+          version: "14.0.0 (UD1A.230805.019)",
+          region: "Global",
+          size: "2.5 GB",
+          type: "Fastboot",
+          url: "https://example.com/firmware/pixel8pro_factory.zip",
+        }
+      ],
+    });
+    console.log("✅ Initial firmware data seeded");
   }
 }
 
