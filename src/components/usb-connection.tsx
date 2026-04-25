@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
-import { Usb, CheckCircle2, AlertCircle, Info } from "lucide-react";
+import { Usb, CheckCircle2, AlertCircle, Info, Smartphone, ShieldAlert } from "lucide-react";
 
 interface DeviceInfo {
   productName?: string;
@@ -12,21 +12,46 @@ interface DeviceInfo {
   vendorId: number;
   productId: number;
   serialNumber?: string;
+  mode: "Normal" | "Fastboot" | "ADB" | "Unknown";
 }
 
 export function USBConnection() {
   const [device, setDevice] = useState<USBDevice | null>(null);
   const [deviceInfo, setDeviceInfo] = useState<DeviceInfo | null>(null);
+  const [isConnecting, setIsConnecting] = useState(false);
+
+  const detectMode = (dev: USBDevice): "Normal" | "Fastboot" | "ADB" | "Unknown" => {
+    // Basic mode detection based on common Vendor/Product IDs or Interface Classes
+    // Fastboot usually has interface class 0xff, subclass 0x42, protocol 0x03
+    // ADB usually has interface class 0xff, subclass 0x42, protocol 0x01
+    
+    try {
+      const interfaces = dev.configuration?.interfaces || [];
+      for (const iface of interfaces) {
+        for (const alt of iface.alternates) {
+          if (alt.interfaceClass === 0xff && alt.interfaceSubclass === 0x42) {
+            if (alt.interfaceProtocol === 0x03) return "Fastboot";
+            if (alt.interfaceProtocol === 0x01) return "ADB";
+          }
+        }
+      }
+    } catch (e) {
+      console.error("Mode detection error:", e);
+    }
+    
+    return "Unknown";
+  };
 
   const connectDevice = async () => {
+    setIsConnecting(true);
     try {
       if (!navigator.usb) {
-        toast.error("WebUSB is not supported in this browser. Please use Chrome or Edge.");
+        toast.error("เบราว์เซอร์ของคุณไม่รองรับ WebUSB กรุณาใช้ Chrome หรือ Edge");
         return;
       }
 
       const selectedDevice = await navigator.usb.requestDevice({
-        filters: [] // Empty filters to see all devices, or add specific ones like { vendorId: 0x18d1 } for Google/Android
+        filters: [] 
       });
 
       await selectedDevice.open();
@@ -35,25 +60,28 @@ export function USBConnection() {
         await selectedDevice.selectConfiguration(1);
       }
       
-      await selectedDevice.claimInterface(0);
+      const mode = detectMode(selectedDevice);
 
       setDevice(selectedDevice);
       setDeviceInfo({
-        productName: selectedDevice.productName ?? undefined,
-        manufacturerName: selectedDevice.manufacturerName ?? undefined,
+        productName: selectedDevice.productName ?? "Unknown Device",
+        manufacturerName: selectedDevice.manufacturerName ?? "Unknown Manufacturer",
         vendorId: selectedDevice.vendorId,
         productId: selectedDevice.productId,
-        serialNumber: selectedDevice.serialNumber ?? undefined,
+        serialNumber: selectedDevice.serialNumber ?? "N/A",
+        mode: mode,
       });
 
-      toast.success(`Connected to ${selectedDevice.productName || "Unknown Device"}`);
+      toast.success(`เชื่อมต่อกับ ${selectedDevice.productName || "อุปกรณ์"} สำเร็จ`);
     } catch (error: any) {
       console.error("USB Connection Error:", error);
       if (error.name === "NotFoundError") {
-        toast.info("No device selected");
+        toast.info("ยกเลิกการเลือกอุปกรณ์");
       } else {
-        toast.error("Failed to connect: " + error.message);
+        toast.error("การเชื่อมต่อล้มเหลว: " + error.message);
       }
+    } finally {
+      setIsConnecting(false);
     }
   };
 
@@ -63,7 +91,7 @@ export function USBConnection() {
         await device.close();
         setDevice(null);
         setDeviceInfo(null);
-        toast.info("Device disconnected");
+        toast.info("ตัดการเชื่อมต่ออุปกรณ์เรียบร้อย");
       } catch (error) {
         console.error("Disconnect Error:", error);
       }
@@ -75,7 +103,7 @@ export function USBConnection() {
       if (event.device === device) {
         setDevice(null);
         setDeviceInfo(null);
-        toast.warning("Device unplugged");
+        toast.warning("อุปกรณ์ถูกถอดออก");
       }
     };
 
@@ -86,65 +114,87 @@ export function USBConnection() {
   }, [device]);
 
   return (
-    <Card className="w-full">
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Usb className="w-5 h-5 text-blue-600" />
-          USB Control Panel
-        </CardTitle>
-        <CardDescription>
-          Connect your device to start maintenance tasks.
-        </CardDescription>
+    <Card className="w-full border-2 border-blue-50 shadow-sm overflow-hidden">
+      <CardHeader className="bg-gray-50/50 border-b">
+        <div className="flex justify-between items-center">
+          <div className="space-y-1">
+            <CardTitle className="flex items-center gap-2 text-xl">
+              <Usb className="w-5 h-5 text-blue-600" />
+              ระบบเชื่อมต่ออุปกรณ์ (USB)
+            </CardTitle>
+            <CardDescription>
+              รองรับโหมด Fastboot, ADB และโหมดดาวน์โหลดสากล
+            </CardDescription>
+          </div>
+          {device && (
+            <div className={cn(
+              "px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider",
+              deviceInfo?.mode === "Fastboot" ? "bg-orange-100 text-orange-700" :
+              deviceInfo?.mode === "ADB" ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-700"
+            )}>
+              {deviceInfo?.mode} Mode
+            </div>
+          )}
+        </div>
       </CardHeader>
-      <CardContent className="space-y-4">
+      <CardContent className="p-6">
         {!device ? (
-          <div className="flex flex-col items-center justify-center border-2 border-dashed rounded-lg p-10 bg-gray-50">
-            <Usb className="w-12 h-12 text-gray-400 mb-4" />
-            <p className="text-gray-500 mb-4 text-center">No device connected</p>
-            <Button onClick={connectDevice} className="gap-2">
-              <Usb className="w-4 h-4" />
-              Connect Device
+          <div className="flex flex-col items-center justify-center border-2 border-dashed rounded-2xl p-12 bg-gray-50/30 transition-all hover:bg-gray-50/50">
+            <div className="bg-white p-4 rounded-full shadow-sm mb-4 border">
+              <Smartphone className="w-10 h-10 text-gray-300" />
+            </div>
+            <p className="text-gray-500 mb-6 text-center font-medium">ยังไม่มีการเชื่อมต่ออุปกรณ์ <br /><span className="text-xs font-normal">เสียบสาย USB แล้วกดปุ่มด้านล่างเพื่อเริ่มการสแกน</span></p>
+            <Button onClick={connectDevice} className="h-12 px-8 rounded-xl bg-blue-600 hover:bg-blue-700 shadow-lg shadow-blue-100 transition-all" disabled={isConnecting}>
+              {isConnecting ? "กำลังค้นหา..." : "เชื่อมต่ออุปกรณ์"}
             </Button>
           </div>
         ) : (
-          <div className="space-y-4">
-            <div className="flex items-center justify-between p-4 bg-green-50 border border-green-200 rounded-lg">
-              <div className="flex items-center gap-3">
-                <CheckCircle2 className="w-6 h-6 text-green-600" />
+          <div className="space-y-6">
+            <div className="flex flex-col md:flex-row items-center justify-between p-5 bg-blue-50/30 border border-blue-100 rounded-2xl gap-4">
+              <div className="flex items-center gap-4">
+                <div className="bg-white p-3 rounded-xl shadow-sm border border-blue-100">
+                  <Smartphone className="w-8 h-8 text-blue-600" />
+                </div>
                 <div>
-                  <p className="font-semibold text-green-900">
-                    {deviceInfo?.productName || "Device Connected"}
+                  <p className="font-bold text-lg text-gray-900 leading-tight">
+                    {deviceInfo?.productName}
                   </p>
-                  <p className="text-xs text-green-700">
+                  <p className="text-xs text-blue-600 font-medium mt-1">
                     {deviceInfo?.manufacturerName} | VID: 0x{deviceInfo?.vendorId.toString(16).padStart(4, "0")} PID: 0x{deviceInfo?.productId.toString(16).padStart(4, "0")}
                   </p>
                 </div>
               </div>
-              <Button variant="outline" size="sm" onClick={disconnectDevice}>
-                Disconnect
+              <Button variant="outline" size="sm" onClick={disconnectDevice} className="rounded-lg h-10 px-6 border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700 transition-all">
+                ตัดการเชื่อมต่อ
               </Button>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="p-4 bg-blue-50 border border-blue-100 rounded-lg">
-                <div className="flex items-center gap-2 mb-2">
-                  <Info className="w-4 h-4 text-blue-600" />
-                  <span className="text-sm font-medium text-blue-900">Device Info</span>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="p-4 bg-white border rounded-xl shadow-sm space-y-2">
+                <div className="flex items-center gap-2 text-gray-500">
+                  <Info className="w-4 h-4" />
+                  <span className="text-xs font-bold uppercase tracking-wider">Serial Number</span>
                 </div>
-                <div className="space-y-1 text-xs text-blue-800">
-                  <p>Serial: {deviceInfo?.serialNumber || "N/A"}</p>
-                  <p>Status: Ready</p>
+                <p className="text-sm font-bold font-mono text-gray-900">{deviceInfo?.serialNumber}</p>
+              </div>
+              
+              <div className="p-4 bg-white border rounded-xl shadow-sm space-y-2">
+                <div className="flex items-center gap-2 text-gray-500">
+                  <ShieldAlert className="w-4 h-4" />
+                  <span className="text-xs font-bold uppercase tracking-wider">Security Status</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 rounded-full bg-green-500" />
+                  <p className="text-sm font-bold text-gray-900">เชื่อมต่อปลอดภัย</p>
                 </div>
               </div>
-              <div className="p-4 bg-orange-50 border border-orange-100 rounded-lg">
-                <div className="flex items-center gap-2 mb-2">
-                  <AlertCircle className="w-4 h-4 text-orange-600" />
-                  <span className="text-sm font-medium text-orange-900">Security Check</span>
+
+              <div className="p-4 bg-white border rounded-xl shadow-sm space-y-2">
+                <div className="flex items-center gap-2 text-gray-500">
+                  <CheckCircle2 className="w-4 h-4" />
+                  <span className="text-xs font-bold uppercase tracking-wider">Connection Mode</span>
                 </div>
-                <div className="space-y-1 text-xs text-orange-800">
-                  <p>Encryption: Verified</p>
-                  <p>Connection: Secure</p>
-                </div>
+                <p className="text-sm font-bold text-gray-900">{deviceInfo?.mode} Interface Ready</p>
               </div>
             </div>
           </div>
@@ -153,3 +203,6 @@ export function USBConnection() {
     </Card>
   );
 }
+
+// Helper to use cn in this file without extra import if needed, but we have @/lib/utils
+import { cn } from "@/lib/utils";
