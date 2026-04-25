@@ -28,7 +28,6 @@ export class MaintenanceTools {
 
     let chipset: DeviceSpecs["chipset"] = "Unknown";
     
-    // Simple detection logic
     if (cpu.toLowerCase().includes("qcom") || cpu.toLowerCase().includes("msm") || cpu.toLowerCase().includes("sdm")) {
       chipset = "Qualcomm";
     } else if (cpu.toLowerCase().includes("mt") || cpu.toLowerCase().includes("mediatek")) {
@@ -41,8 +40,16 @@ export class MaintenanceTools {
   }
 
   /**
-   * Typical FRP Bypass for some devices involves erasing the config/frp partition
+   * Samsung Specific: Odin Protocol Handshake
+   * Note: Samsung uses a different protocol than Fastboot. 
+   * This is a placeholder for the specialized Odin handler.
    */
+  async initSamsungMode(): Promise<boolean> {
+    // In a real scenario, we would switch to Odin mode if detected
+    // VID: 0x04e8 (Samsung)
+    return true;
+  }
+
   async bypassFRP(): Promise<{ success: boolean; message: string }> {
     try {
       const resp = await this.fb.sendCommand("erase:frp");
@@ -57,9 +64,6 @@ export class MaintenanceTools {
     }
   }
 
-  /**
-   * Unlock Bootloader (Standard Android Command)
-   */
   async unlockBootloader(): Promise<{ success: boolean; message: string }> {
     try {
       const resp = await this.fb.sendCommand("flashing unlock");
@@ -74,9 +78,6 @@ export class MaintenanceTools {
     }
   }
 
-  /**
-   * Fix Bootloop (Wipe Data/Cache)
-   */
   async fixBootloop(): Promise<{ success: boolean; message: string }> {
     try {
       await this.fb.sendCommand("erase:cache");
@@ -90,12 +91,8 @@ export class MaintenanceTools {
     }
   }
 
-  /**
-   * Remove Demo Mode (Specific for some brands like Vivo/Oppo/Xiaomi)
-   */
   async removeDemoMode(): Promise<{ success: boolean; message: string }> {
     try {
-      // Common partitions where demo/config is stored
       await this.fb.sendCommand("erase:persist"); 
       const resp = await this.fb.sendCommand("erase:special_config");
       if (resp.startsWith("OKAY")) {
@@ -107,15 +104,31 @@ export class MaintenanceTools {
     }
   }
 
-  /**
-   * Clean Cache & Dalvik
-   */
   async cleanCache(): Promise<{ success: boolean; message: string }> {
     try {
       await this.fb.sendCommand("erase:cache");
       return { success: true, message: "Cache partitions cleaned." };
     } catch (e: any) {
       return { success: false, message: e.message };
+    }
+  }
+
+  /**
+   * NEW: Automated Magisk Patching Logic
+   * This simulates the process of patching a boot image.
+   */
+  async patchMagisk(bootImg: ArrayBuffer): Promise<{ success: boolean; patchedBuffer?: ArrayBuffer; message: string }> {
+    // In a real implementation, this would involve sending the buffer to a server-side 
+    // Magisk patching binary or using a port of Magisk's patching logic.
+    try {
+      // Simulation of patching process
+      return { 
+        success: true, 
+        patchedBuffer: bootImg, // For now, just return original as mock
+        message: "Boot image patched with Magisk successfully (Mock)" 
+      };
+    } catch (e: any) {
+      return { success: false, message: `Patching failed: ${e.message}` };
     }
   }
 }
