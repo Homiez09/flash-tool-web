@@ -20,20 +20,20 @@ All API endpoints and security protocols are documented in `API.md`.
 ## Roadmap & Progress
 
 ### v0.1.0 - v0.6.0 Alpha (Completed)
-- Foundation, Auth, Credit System, WebUSB integration, Chunked Transfer, Cloud Firmware Sync, and Admin Dashboard.
+- Foundation, Auth, Credit System, WebUSB integration, Chunked Transfer, Cloud Firmware Sync, Admin Dashboard, and History Tracking.
 
 ### v0.7.0 Alpha (Current - Completed)
-- **Samsung & Root Integration:**
-  - **Samsung Support:** Detection for Samsung devices and readiness for Odin/Loke operations.
-  - **Auto Magisk Root:** Automated patching and flashing of `boot.img` for rooting devices.
-  - **Odin Mode UI:** Specific actions and identification for Samsung handsets.
-  - **Improved Specs Detection:** More accurate chipset and bootloader status reading.
-- **UI Refinements:** Bold, premium typography with italics for a high-end software look.
+- **UI Refinement & Root Integration:**
+  - **Compact UI Overhaul:** Maintenance cards and action buttons resized for better usability and consistency.
+  - **Auto Magisk Root:** Automated patching and flashing of `boot.img` via a dedicated one-click tool.
+  - **Dynamic Config Integration:** UI now correctly responds to Admin-set pricing and feature toggles.
+  - **Real History Dashboard:** Users can view their real transaction history and export session logs.
+  - **Samsung Detection:** Enhanced hardware specs detection specifically for Samsung handsets.
 
 ### v0.8.0 Alpha (Planned)
-- Official Samsung Odin protocol implementation (PIT parsing and flashing).
-- Firmware Repository (Search and direct flash from cloud catalog).
+- Implementation of Samsung Odin protocol (PIT/Tar flashing).
+- Firmware Cloud Catalog (Search and direct stream flash).
 
 ### v1.0.0 (Release)
 - Stable release after user verification.
-- Payment gateway integration.
+- Payment gateway integration (PromptPay/Stripe).

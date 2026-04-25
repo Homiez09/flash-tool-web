@@ -537,42 +537,42 @@ export default function DashboardPage() {
           )}
 
           {activeTab === "oneclick" && (
-            <div className="space-y-10 animate-in fade-in duration-500 text-gray-900">
+            <div className="space-y-8 animate-in fade-in duration-500 text-gray-900">
                <div className="flex items-center justify-between">
-                <h2 className="text-3xl font-black uppercase tracking-tighter leading-none italic">Scripts Engine <span className="text-blue-600 text-xs ml-4 tracking-[0.5em] opacity-40">v0.7.0</span></h2>
+                <h2 className="text-3xl font-black uppercase tracking-tighter leading-none">Maintenance Scripts</h2>
                 <Button variant="outline" size="sm" onClick={() => setActiveTab("dashboard")} className="font-bold rounded-2xl cursor-pointer px-8 h-12 uppercase text-xs">Back</Button>
               </div>
-               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-10">
-                  <MaintenanceCard title="Unlock Bootloader" desc="Standard Fastboot unlock command for modern Android devices." cost={sysConfig.prices.unlock} icon={Unlock} color="orange" onClick={() => handleMaintenance("unlock", sysConfig.prices.unlock)} disabled={isProcessing || !sysConfig.features.unlock} />
-                  <MaintenanceCard title="Bypass FRP Lock" desc="Clear Factory Reset Protection partition for supported models." cost={sysConfig.prices.frp} icon={Key} color="red" onClick={() => handleMaintenance("frp", sysConfig.prices.frp)} disabled={isProcessing || !sysConfig.features.frp} />
+               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 pb-10">
+                  <MaintenanceCard title="Unlock BL" desc="Standard Fastboot unlock command for modern Android devices." cost={sysConfig.prices.unlock} icon={Unlock} color="orange" onClick={() => handleMaintenance("unlock", sysConfig.prices.unlock)} disabled={isProcessing || !sysConfig.features.unlock} />
+                  <MaintenanceCard title="FRP Lock" desc="Clear Factory Reset Protection partition for supported models." cost={sysConfig.prices.frp} icon={Key} color="red" onClick={() => handleMaintenance("frp", sysConfig.prices.frp)} disabled={isProcessing || !sysConfig.features.frp} />
                   
-                  {/* NEW: Auto Magisk Root Card */}
-                  <Card className={cn("hover:shadow-2xl transition-all shadow-md group border-2 border-transparent bg-white rounded-[2.5rem] overflow-hidden scale-100 hover:scale-[1.02]", !sysConfig.features.root && "opacity-50 grayscale pointer-events-none")}>
-                     <CardHeader className="p-10">
-                        <div className="w-20 h-20 rounded-[1.5rem] flex items-center justify-center mb-8 group-hover:rotate-12 transition-transform border-4 shadow-sm bg-green-50 border-green-100 text-green-600">
-                           <ShieldCheck className="w-10 h-10" />
+                  {/* Auto Magisk Root Card Refined */}
+                  <Card className={cn("hover:shadow-xl transition-all shadow-sm group border-2 border-transparent bg-white rounded-3xl overflow-hidden scale-100 hover:scale-[1.01]", !sysConfig.features.root && "opacity-50 grayscale pointer-events-none")}>
+                     <CardHeader className="p-6">
+                        <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-4 group-hover:rotate-6 transition-transform border-2 shadow-sm bg-green-50 border-green-100 text-green-600">
+                           <ShieldCheck className="w-6 h-6" />
                         </div>
-                        <CardTitle className="font-black text-2xl tracking-tighter uppercase leading-none mb-4 italic">Auto Magisk Root</CardTitle>
-                        <CardDescription className="font-bold text-slate-400 lowercase tracking-tight leading-relaxed text-xs">Select boot.img and we will patch & flash it automatically.</CardDescription>
+                        <CardTitle className="font-black text-lg tracking-tighter uppercase leading-none mb-2">Magisk Root</CardTitle>
+                        <CardDescription className="font-bold text-slate-400 lowercase tracking-tight leading-relaxed text-[10px] line-clamp-1">{flashFile ? flashFile.name : "Select boot.img"}</CardDescription>
                      </CardHeader>
-                     <CardContent className="px-10 pb-4 pt-0">
-                        <div onClick={() => fileInputRef.current?.click()} className="border-2 border-dashed border-gray-100 rounded-xl p-4 text-center cursor-pointer hover:bg-gray-50 transition-all">
+                     <CardContent className="px-6 pb-2 pt-0">
+                        <Button variant="ghost" size="sm" onClick={() => fileInputRef.current?.click()} className="w-full border-2 border-dashed border-gray-100 h-10 text-[9px] font-black uppercase tracking-widest hover:bg-gray-50 rounded-xl cursor-pointer">
                            <input type="file" ref={fileInputRef} className="hidden" onChange={(e) => setFile(e.target.files?.[0] || null)} />
-                           <p className="text-[10px] font-black text-slate-400 uppercase truncate">{flashFile ? flashFile.name : "Choose boot.img"}</p>
-                        </div>
+                           {flashFile ? "Change Image" : "Choose Image"}
+                        </Button>
                      </CardContent>
-                     <CardFooter className="flex justify-between items-center border-t py-8 px-10 bg-slate-50/50">
+                     <CardFooter className="flex justify-between items-center border-t py-4 px-6 bg-slate-50/30">
                         <div className="flex flex-col text-gray-900">
-                           <span className="text-[9px] font-black uppercase text-slate-400 tracking-[0.4em] opacity-60 mb-1">Service Fee</span>
-                           <span className="text-2xl font-black text-blue-600 tracking-tighter">{sysConfig.prices.root}.00 <span className="text-[10px] uppercase ml-1 opacity-50">c</span></span>
+                           <span className="text-[8px] font-black uppercase text-slate-400 tracking-widest opacity-60">Fee</span>
+                           <span className="text-lg font-black text-blue-600 tracking-tighter">{sysConfig.prices.root}.00 <span className="text-[9px] uppercase opacity-50">c</span></span>
                         </div>
-                        <Button variant="default" size="lg" className="font-black h-14 px-10 rounded-2xl shadow-2xl transition-all active:scale-95 cursor-pointer uppercase text-[10px] tracking-widest bg-green-600 hover:bg-green-700" onClick={handleAutoRoot} disabled={isProcessing || !flashFile}>Execute</Button>
+                        <Button variant="default" size="sm" className="font-black h-10 px-6 rounded-xl shadow-md transition-all active:scale-95 cursor-pointer uppercase text-[9px] tracking-widest bg-green-600 hover:bg-green-700" onClick={handleAutoRoot} disabled={isProcessing || !flashFile}>Run</Button>
                      </CardFooter>
                   </Card>
 
-                  <MaintenanceCard title="Fix Bootloop" desc="Wipe userdata and cache to resolve startup hangs." cost={sysConfig.prices.bootloop} icon={RefreshCw} color="blue" onClick={() => handleMaintenance("bootloop", sysConfig.prices.bootloop)} disabled={isProcessing || !sysConfig.features.bootloop} />
-                  <MaintenanceCard title="Remove Demo Mode" desc="Remove shop demo restriction for Vivo/Oppo/Xiaomi." cost={sysConfig.prices.demo} icon={Eraser} color="purple" onClick={() => handleMaintenance("demo", sysConfig.prices.demo)} disabled={isProcessing || !sysConfig.features.demo} />
-                  <MaintenanceCard title="Clean Cache" desc="Flush Dalvik-Cache and system temporary files." cost={sysConfig.prices.cache} icon={Eraser} color="green" onClick={() => handleMaintenance("cache", sysConfig.prices.cache)} disabled={isProcessing || !sysConfig.features.cache} />
+                  <MaintenanceCard title="Bootloop" desc="Wipe userdata and cache to resolve startup hangs." cost={sysConfig.prices.bootloop} icon={RefreshCw} color="blue" onClick={() => handleMaintenance("bootloop", sysConfig.prices.bootloop)} disabled={isProcessing || !sysConfig.features.bootloop} />
+                  <MaintenanceCard title="Demo Mode" desc="Remove shop demo restriction for Vivo/Oppo/Xiaomi." cost={sysConfig.prices.demo} icon={Eraser} color="purple" onClick={() => handleMaintenance("demo", sysConfig.prices.demo)} disabled={isProcessing || !sysConfig.features.demo} />
+                  <MaintenanceCard title="Clean" desc="Flush Dalvik-Cache and system temporary files." cost={sysConfig.prices.cache} icon={Eraser} color="green" onClick={() => handleMaintenance("cache", sysConfig.prices.cache)} disabled={isProcessing || !sysConfig.features.cache} />
                </div>
             </div>
           )}
@@ -635,11 +635,11 @@ export default function DashboardPage() {
 
 function MaintenanceCard({ title, desc, cost, icon: Icon, color, onClick, disabled }: any) {
   const colorMap: any = {
-    orange: "bg-orange-50 border-orange-100 text-orange-600 shadow-orange-50/50",
-    red: "bg-red-50 border-red-100 text-red-600 shadow-red-50/50",
-    blue: "bg-blue-50 border-blue-100 text-blue-600 shadow-blue-50/50",
-    purple: "bg-purple-50 border-purple-100 text-purple-600 shadow-purple-50/50",
-    green: "bg-green-50 border-green-100 text-green-600 shadow-green-50/50",
+    orange: "bg-orange-50 border-orange-100 text-orange-600 shadow-orange-50/30",
+    red: "bg-red-50 border-red-100 text-red-600 shadow-red-50/30",
+    blue: "bg-blue-50 border-blue-100 text-blue-600 shadow-blue-50/30",
+    purple: "bg-purple-50 border-purple-100 text-purple-600 shadow-purple-50/30",
+    green: "bg-green-50 border-green-100 text-green-600 shadow-green-50/30",
   };
   const btnColorMap: any = {
     orange: "bg-orange-600 hover:bg-orange-700 shadow-orange-200",
@@ -649,20 +649,20 @@ function MaintenanceCard({ title, desc, cost, icon: Icon, color, onClick, disabl
     green: "bg-green-600 hover:bg-green-700 shadow-green-100",
   };
   return (
-    <Card className={cn("hover:shadow-2xl transition-all shadow-md group border-2 border-transparent bg-white rounded-[2.5rem] overflow-hidden scale-100 hover:scale-[1.02]", disabled && "opacity-50 grayscale pointer-events-none")}>
-      <CardHeader className="p-10">
-        <div className={cn("w-20 h-20 rounded-[1.5rem] flex items-center justify-center mb-8 group-hover:rotate-12 transition-transform border-4 shadow-sm", colorMap[color])}>
-          <Icon className="w-10 h-10" />
+    <Card className={cn("hover:shadow-xl transition-all shadow-sm group border-2 border-transparent bg-white rounded-3xl overflow-hidden scale-100 hover:scale-[1.01]", disabled && "opacity-50 grayscale pointer-events-none")}>
+      <CardHeader className="p-6">
+        <div className={cn("w-12 h-12 rounded-xl flex items-center justify-center mb-4 group-hover:rotate-6 transition-transform border-2 shadow-sm", colorMap[color])}>
+          <Icon className="w-6 h-6" />
         </div>
-        <CardTitle className="font-black text-2xl text-slate-900 tracking-tighter uppercase leading-none mb-4 italic">{title}</CardTitle>
-        <CardDescription className="font-bold text-slate-400 lowercase tracking-tight leading-relaxed text-xs">{desc}</CardDescription>
+        <CardTitle className="font-black text-lg text-slate-900 tracking-tight uppercase leading-none mb-2">{title}</CardTitle>
+        <CardDescription className="font-bold text-slate-400 lowercase tracking-tight leading-relaxed text-[10px] line-clamp-2">{desc}</CardDescription>
       </CardHeader>
-      <CardFooter className="flex justify-between items-center border-t py-10 px-10 bg-slate-50/50 text-gray-900">
+      <CardFooter className="flex justify-between items-center border-t py-4 px-6 bg-slate-50/30 text-gray-900">
         <div className="flex flex-col">
-          <span className="text-[9px] font-black uppercase text-slate-400 tracking-[0.4em] opacity-60 mb-1">Service Fee</span>
-          <span className="text-3xl font-black text-blue-600 tracking-tighter">{cost}.00 <span className="text-[10px] uppercase ml-1 opacity-50">c</span></span>
+          <span className="text-[8px] font-black uppercase text-slate-400 tracking-widest opacity-60">Fee</span>
+          <span className="text-lg font-black text-blue-600 tracking-tighter">{cost}.00 <span className="text-[9px] uppercase opacity-50">c</span></span>
         </div>
-        <Button variant="default" size="lg" className={cn("font-black h-16 px-12 rounded-2xl shadow-[0_15px_30px_-5px_rgba(0,0,0,0.1)] transition-all active:scale-95 cursor-pointer uppercase text-[10px] tracking-[0.2em]", btnColorMap[color])} onClick={onClick} disabled={disabled}>Execute</Button>
+        <Button variant="default" size="sm" className={cn("font-black h-10 px-6 rounded-xl shadow-md transition-all active:scale-95 cursor-pointer uppercase text-[9px] tracking-widest", btnColorMap[color])} onClick={onClick} disabled={disabled}>Run</Button>
       </CardFooter>
     </Card>
   );
