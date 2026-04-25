@@ -57,7 +57,6 @@ export class FastbootDevice {
       throw new Error("Endpoints not found");
     }
 
-    // Get max download size for chunking
     const maxStr = await this.getVariable("max-download-size");
     this.maxDownloadSize = parseInt(maxStr, 16) || 64 * 1024 * 1024; // Default 64MB
   }
@@ -77,7 +76,6 @@ export class FastbootDevice {
     const response = decoder.decode(result.data);
     
     if (response.startsWith("INFO")) {
-      // In real scenario, we might want to pass this info to a callback
       return await this.readResponse(); 
     }
     
@@ -93,10 +91,13 @@ export class FastbootDevice {
   }
 
   /**
-   * Upload data to the device's RAM
+   * Upload data to the device's RAM with streaming support
    */
-  async download(data: ArrayBuffer, onProgress?: (p: FlashProgress) => void): Promise<void> {
-    const size = data.byteLength;
+  async download(
+    data: ArrayBuffer | ReadableStream<Uint8Array>, 
+    size: number,
+    onProgress?: (p: FlashProgress) => void
+  ): Promise<void> {
     const sizeHex = size.toString(16).padStart(8, '0');
     
     const resp = await this.sendCommand(`download:${sizeHex}`);
@@ -105,24 +106,29 @@ export class FastbootDevice {
     }
 
     const startTime = Date.now();
-    const chunkSize = 1024 * 1024; // 1MB chunks for transfer
     let bytesSent = 0;
 
-    while (bytesSent < size) {
-      const currentChunkSize = Math.min(chunkSize, size - bytesSent);
-      const chunk = data.slice(bytesSent, bytesSent + currentChunkSize);
-      
-      await this.device.transferOut(this.endpointOut, chunk);
-      bytesSent += currentChunkSize;
-
-      if (onProgress) {
-        const elapsed = (Date.now() - startTime) / 1000;
-        onProgress({
-          phase: "Downloading",
-          bytesSent,
-          totalBytes: size,
-          speed: bytesSent / (elapsed || 0.1)
-        });
+    if (data instanceof ArrayBuffer) {
+      const chunkSize = 1024 * 1024; // 1MB chunks
+      while (bytesSent < size) {
+        const currentChunkSize = Math.min(chunkSize, size - bytesSent);
+        const chunk = data.slice(bytesSent, bytesSent + currentChunkSize);
+        await this.device.transferOut(this.endpointOut, chunk);
+        bytesSent += currentChunkSize;
+        this.emitProgress(bytesSent, size, startTime, onProgress);
+      }
+    } else {
+      // Handle streaming from URL
+      const reader = data.getReader();
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        if (value) {
+          // Ensure we pass a BufferSource compatible with WebUSB
+          await this.device.transferOut(this.endpointOut, value.buffer as ArrayBuffer);
+          bytesSent += value.length;
+          this.emitProgress(bytesSent, size, startTime, onProgress);
+        }
       }
     }
 
@@ -132,9 +138,18 @@ export class FastbootDevice {
     }
   }
 
-  /**
-   * Flash the downloaded data to a partition
-   */
+  private emitProgress(sent: number, total: number, start: number, cb?: (p: FlashProgress) => void) {
+    if (cb) {
+      const elapsed = (Date.now() - start) / 1000;
+      cb({
+        phase: "Downloading",
+        bytesSent: sent,
+        totalBytes: total,
+        speed: sent / (elapsed || 0.1)
+      });
+    }
+  }
+
   async flash(partition: string): Promise<void> {
     const resp = await this.sendCommand(`flash:${partition}`);
     if (!resp.startsWith("OKAY")) {
@@ -142,9 +157,6 @@ export class FastbootDevice {
     }
   }
 
-  /**
-   * Erase a partition
-   */
   async erase(partition: string): Promise<void> {
     const resp = await this.sendCommand(`erase:${partition}`);
     if (!resp.startsWith("OKAY")) {

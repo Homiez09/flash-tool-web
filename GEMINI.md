@@ -1,4 +1,4 @@
-# Project: Flash Tool Pro (v0.3.0 Alpha)
+# Project: Flash Tool Pro (v0.4.0 Alpha)
 
 ## Project Overview
 Flash Tool Pro is a professional, universal web-based mobile repair and flashing utility. It allows technicians to perform software maintenance on mobile devices (e.g., Flash ROM, Unlock Bootloader, Bypass FRP, Fix Bootloop) directly through a web browser using the **WebUSB API**.
@@ -50,15 +50,6 @@ All API endpoints and security protocols are documented in `API.md`.
 
 ---
 
-## Development Conventions
-
-### Architecture
-- **Hardware Layer (`src/lib/`):** Contains `fastboot.ts` and `maintenance.ts` which handle low-level USB communication and specialized repair commands.
-- **Auth & Session:** Managed via `src/lib/auth.ts`. Logged-in users are automatically redirected from public pages to the dashboard.
-- **Credit System:** Every paid operation (e.g., Unlock Bootloader) must validate user credits on the server side (`src/app/api/user/use-credits/route.ts`) before execution.
-
----
-
 ## Roadmap & Progress
 
 ### v0.1.0 Alpha (Completed)
@@ -67,15 +58,18 @@ All API endpoints and security protocols are documented in `API.md`.
 ### v0.2.0 Alpha (Completed)
 - **Flashing Engine:** Chunked transfer for large files, progress tracking, and partition selection.
 
-### v0.3.0 Alpha (Current - Completed)
-- **Automation & Detection:**
-  - Auto-detect Chipset (Qualcomm, MTK, Samsung).
-  - Advanced One-Click Tools: Remove Demo Mode, Clean Cache, Fix Bootloop.
-  - Device Information Dashboard: Detailed specs on connection.
+### v0.3.0 Alpha (Completed)
+- **Automation & Detection:** Auto-detect Chipset, Advanced One-Click Tools (Demo Mode, Cache).
 
-### v0.4.0 Alpha (Planned)
-- Cloud Storage Sync (Flash from URL/GDrive).
-- More brand-specific EDL/BROM protocols.
+### v0.4.0 Alpha (Current - Completed)
+- **Cloud Firmware Sync:**
+  - Support for flashing firmware directly from a URL/Direct Link.
+  - Streaming data transfer from URL to device (Memory-efficient).
+  - Improved UI for flash method selection (Local File vs URL).
+
+### v0.5.0 Alpha (Planned)
+- Implementation of more brand-specific protocols (Odin for Samsung).
+- Detailed log export and history dashboard.
 
 ### v1.0.0 (Release)
 - Stable release after user verification.
