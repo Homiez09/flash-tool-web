@@ -118,8 +118,8 @@ export function USBConnection({ onDeviceConnected }: { onDeviceConnected?: (devi
   }, [device]);
 
   return (
-    <Card className="w-full border-2 border-blue-50 shadow-sm overflow-hidden">
-      <CardHeader className="bg-gray-50/50 border-b">
+    <Card className="w-full border border-gray-100 shadow-sm overflow-hidden">
+      <CardHeader className="bg-gray-50/30 border-b border-gray-100">
         <div className="flex justify-between items-center">
           <div className="space-y-1">
             <CardTitle className="flex items-center gap-2 text-xl">

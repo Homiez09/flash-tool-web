@@ -366,7 +366,7 @@ export default function DashboardPage() {
                   
                   {connectedUsbDevice && (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-in zoom-in-95 duration-500">
-                      <Card className="border-blue-100 bg-blue-50/20 shadow-xl border-2 rounded-3xl overflow-hidden">
+                      <Card className="border border-gray-100 bg-blue-50/20 shadow-sm shadow-blue-600/5 rounded-3xl overflow-hidden">
                         <CardHeader className="pb-3 px-8 pt-8">
                           <CardTitle className="text-[10px] flex items-center gap-2 text-blue-700 font-black uppercase tracking-[0.2em]">
                             <Activity className="w-4 h-4" /> Quick Actions
@@ -381,7 +381,7 @@ export default function DashboardPage() {
                         </CardContent>
                       </Card>
 
-                      <Card className="border-green-100 bg-green-50/20 shadow-xl border-2 rounded-3xl overflow-hidden">
+                      <Card className="border border-green-100 bg-green-50/20 shadow-sm rounded-3xl overflow-hidden">
                         <CardHeader className="pb-3 px-8 pt-8">
                           <CardTitle className="text-[10px] flex items-center gap-2 text-green-700 font-black uppercase tracking-[0.2em]">
                             <Cpu className="w-4 h-4" /> Hardware Info
@@ -402,14 +402,14 @@ export default function DashboardPage() {
                   )}
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <Card className={cn("hover:shadow-2xl transition-all cursor-pointer group border-2 border-transparent bg-white shadow-md rounded-3xl overflow-hidden", !sysConfig.features.flash && "opacity-50 grayscale pointer-events-none")} onClick={() => setActiveTab("flash")}>
+                    <Card className={cn("hover:shadow-2xl transition-all cursor-pointer group border border-gray-100 shadow-sm rounded-3xl overflow-hidden", !sysConfig.features.flash && "opacity-50 grayscale pointer-events-none")} onClick={() => setActiveTab("flash")}>
                       <CardHeader className="p-8">
                         <Zap className="w-12 h-12 text-yellow-500 mb-4 group-hover:scale-110 transition-transform bg-yellow-50 p-3 rounded-2xl border border-yellow-100" />
                         <CardTitle className="font-black text-2xl text-gray-900 uppercase">Flash Engine</CardTitle>
                         <CardDescription className="text-xs font-bold text-gray-400 lowercase italic">Universal flashing from local/cloud.</CardDescription>
                       </CardHeader>
                     </Card>
-                    <Card className="hover:shadow-2xl transition-all cursor-pointer group border-2 border-transparent hover:border-blue-300 bg-white shadow-md rounded-3xl overflow-hidden" onClick={() => setActiveTab("oneclick")}>
+                    <Card className="hover:shadow-2xl transition-all cursor-pointer group border border-gray-100 shadow-sm rounded-3xl overflow-hidden" onClick={() => setActiveTab("oneclick")}>
                       <CardHeader className="p-8">
                         <Smartphone className="w-12 h-12 text-blue-500 mb-4 group-hover:scale-110 transition-transform bg-blue-50 p-3 rounded-2xl border border-blue-100" />
                         <CardTitle className="font-black text-2xl text-gray-900 uppercase leading-none">One-Click</CardTitle>
@@ -437,7 +437,7 @@ export default function DashboardPage() {
                     </CardContent>
                   </Card>
 
-                  <Card className="bg-white border-2 border-blue-50 shadow-xl rounded-[2.5rem] overflow-hidden text-gray-900">
+                  <Card className="bg-white border border-gray-100 shadow-sm rounded-[2.5rem] overflow-hidden text-gray-900">
                     <CardHeader className="bg-gray-50/50 p-8 border-b border-gray-100">
                       <CardTitle className="text-lg font-black uppercase flex items-center gap-2 tracking-tighter"><History className="w-5 h-5 text-blue-600" /> Activity</CardTitle>
                     </CardHeader>
@@ -467,7 +467,7 @@ export default function DashboardPage() {
               </div>
 
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-                <Card className="lg:col-span-2 border-2 border-blue-50 shadow-2xl rounded-[2.5rem] overflow-hidden bg-white">
+                <Card className="lg:col-span-2 border border-gray-100 shadow-sm rounded-[2.5rem] overflow-hidden bg-white">
                    <CardHeader className="bg-gray-50/50 border-b p-8">
                     <div className="flex gap-4">
                        <button onClick={() => setFlashMethod("file")} className={cn("flex-1 h-14 rounded-2xl font-black text-[10px] uppercase tracking-widest flex items-center justify-center gap-3 border-4 transition-all cursor-pointer", flashMethod === "file" ? "bg-blue-600 text-white border-blue-600 shadow-xl" : "bg-white text-gray-300 border-gray-100")}>
@@ -547,7 +547,7 @@ export default function DashboardPage() {
                   <MaintenanceCard title="FRP Lock" desc="Clear Factory Reset Protection partition for supported models." cost={sysConfig.prices.frp} icon={Key} color="red" onClick={() => handleMaintenance("frp", sysConfig.prices.frp)} disabled={isProcessing || !sysConfig.features.frp} />
                   
                   {/* Auto Magisk Root Card Refined */}
-                  <Card className={cn("hover:shadow-xl transition-all shadow-sm group border-2 border-transparent bg-white rounded-3xl overflow-hidden scale-100 hover:scale-[1.01]", !sysConfig.features.root && "opacity-50 grayscale pointer-events-none")}>
+                  <Card className={cn("hover:shadow-xl transition-all shadow-sm group border border-gray-100 bg-white rounded-3xl overflow-hidden scale-100 hover:scale-[1.01]", !sysConfig.features.root && "opacity-50 grayscale pointer-events-none")}>
                      <CardHeader className="p-6">
                         <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-4 group-hover:rotate-6 transition-transform border-2 shadow-sm bg-green-50 border-green-100 text-green-600">
                            <ShieldCheck className="w-6 h-6" />
@@ -584,7 +584,7 @@ export default function DashboardPage() {
                   <Button variant="outline" size="sm" onClick={() => setActiveTab("dashboard")} className="font-bold rounded-[1.5rem] cursor-pointer h-12 px-8 uppercase text-[10px] tracking-widest border-slate-100">Back Home</Button>
                </div>
 
-               <Card className="rounded-[3rem] border-2 border-slate-100 shadow-2xl overflow-hidden bg-white">
+               <Card className="rounded-[3rem] border border-gray-100 shadow-sm overflow-hidden bg-white">
                   <CardContent className="p-0">
                     <table className="w-full text-left">
                       <thead className="text-[9px] text-slate-400 font-black uppercase tracking-[0.4em] bg-slate-50 border-b border-slate-100 text-gray-900">
