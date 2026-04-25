@@ -15,7 +15,7 @@ interface DeviceInfo {
   mode: "Normal" | "Fastboot" | "ADB" | "Unknown";
 }
 
-export function USBConnection() {
+export function USBConnection({ onDeviceConnected }: { onDeviceConnected?: (device: USBDevice) => void }) {
   const [device, setDevice] = useState<USBDevice | null>(null);
   const [deviceInfo, setDeviceInfo] = useState<DeviceInfo | null>(null);
   const [isConnecting, setIsConnecting] = useState(false);
@@ -71,6 +71,10 @@ export function USBConnection() {
         serialNumber: selectedDevice.serialNumber ?? "N/A",
         mode: mode,
       });
+
+      if (onDeviceConnected) {
+        onDeviceConnected(selectedDevice);
+      }
 
       toast.success(`เชื่อมต่อกับ ${selectedDevice.productName || "อุปกรณ์"} สำเร็จ`);
     } catch (error: any) {
