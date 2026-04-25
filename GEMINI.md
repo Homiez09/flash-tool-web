@@ -1,4 +1,4 @@
-# Project: Flash Tool Pro (v0.1.0 Alpha)
+# Project: Flash Tool Pro (v0.3.0 Alpha)
 
 ## Project Overview
 Flash Tool Pro is a professional, universal web-based mobile repair and flashing utility. It allows technicians to perform software maintenance on mobile devices (e.g., Flash ROM, Unlock Bootloader, Bypass FRP, Fix Bootloop) directly through a web browser using the **WebUSB API**.
@@ -57,33 +57,25 @@ All API endpoints and security protocols are documented in `API.md`.
 - **Auth & Session:** Managed via `src/lib/auth.ts`. Logged-in users are automatically redirected from public pages to the dashboard.
 - **Credit System:** Every paid operation (e.g., Unlock Bootloader) must validate user credits on the server side (`src/app/api/user/use-credits/route.ts`) before execution.
 
-### Coding Standards
-- **Strict Typing:** Always use TypeScript and ensure `npx tsc --noEmit` passes.
-- **UI Components:** Use Radix-based components via Shadcn UI. Buttons should always have `cursor-pointer`.
-- **Security:** Never commit `.env` files. Maintain `.env.example`.
-- **Hardware Safety:** Always use try-catch blocks when communicating with USB devices to handle unexpected disconnects or permission errors.
-
-### Git Workflow
-- Perform `npm run build` before every commit to ensure structural integrity.
-- Use descriptive commit messages (e.g., `feat:`, `fix:`, `chore:`, `docs:`).
-- Always push to `origin main` after successful verification.
-
 ---
 
-## Future Roadmap (Alpha Versions)
+## Roadmap & Progress
 
-### v0.2.0 (Phase 4: Flashing Engine) - *Current Task*
-- Implement **Chunked Transfer** for large firmware files.
-- Real-time progress tracking (Speed, ETA).
-- Verification logic (Checksum/MD5).
+### v0.1.0 Alpha (Completed)
+- Initial foundation, Auth system, Credit UI, and basic WebUSB connection.
 
-### v0.3.0 (Phase 5: Automation)
-- Auto-detect Chipset (Qualcomm/MTK).
-- Specialized scripts (Remove Demo, Clean Cache).
+### v0.2.0 Alpha (Completed)
+- **Flashing Engine:** Chunked transfer for large files, progress tracking, and partition selection.
 
-### v0.4.0 (Cloud & Info)
+### v0.3.0 Alpha (Current - Completed)
+- **Automation & Detection:**
+  - Auto-detect Chipset (Qualcomm, MTK, Samsung).
+  - Advanced One-Click Tools: Remove Demo Mode, Clean Cache, Fix Bootloop.
+  - Device Information Dashboard: Detailed specs on connection.
+
+### v0.4.0 Alpha (Planned)
 - Cloud Storage Sync (Flash from URL/GDrive).
-- Detailed Device Info (Knox, Battery Cycle).
+- More brand-specific EDL/BROM protocols.
 
 ### v1.0.0 (Release)
 - Stable release after user verification.
