@@ -1,36 +1,74 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Flash Tool Pro - ระบบจัดการและซ่อมแซมมือถือออนไลน์
 
-## Getting Started
+**Flash Tool Pro** เป็น Web Application สำหรับช่างซ่อมมือถือมืออาชีพ ที่ช่วยให้คุณสามารถสื่อสารกับโทรศัพท์มือถือผ่านโปรโตคอล Fastboot และ ADB ได้โดยตรงจากเบราว์เซอร์ โดยใช้เทคโนโลยี WebUSB ไม่ต้องติดตั้งโปรแกรมเสริมที่ซับซ้อน
 
-First, run the development server:
+## 🚀 ฟีเจอร์หลัก (Key Features)
+- **WebUSB Connection:** เชื่อมต่อและตรวจจับอุปกรณ์ (VID/PID/Serial) ได้ทันทีจาก Chrome/Edge
+- **Fastboot Protocol:** สั่งงาน Reboot และเช็คสถานะผ่าน Fastboot Interface
+- **One-Click Tools:** สคริปต์อัตโนมัติสำหรับการปลดล็อก Bootloader, Bypass FRP และแก้ไขปัญหา Bootloop
+- **Credit System:** ระบบสมาชิกและเครดิตสำหรับการเข้าใช้งานฟีเจอร์ต่างๆ (พร้อมระบบตรวจสอบความปลอดภัยฝั่ง Server)
+- **Activity Logs:** หน้าจอ Terminal สำหรับดูการทำงานของระบบแบบ Real-time
+- **SEO Optimized:** รองรับการค้นหาผ่าน Search Engine และระบบจัดการ Metadata ที่สมบูรณ์
 
+---
+
+## 🛠 การติดตั้งและตั้งค่า (Installation)
+
+### 1. ความต้องการของระบบ (Prerequisites)
+- **Node.js:** เวอร์ชั่น 20 ขึ้นไป
+- **Docker & Docker Compose:** สำหรับรันฐานข้อมูล PostgreSQL
+- **Web Browser:** Google Chrome หรือ Microsoft Edge (ที่รองรับ WebUSB API)
+
+### 2. ดาวน์โหลดโปรเจกต์ (Clone Project)
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/Homiez09/flash-tool-web.git
+cd flash-tool-web
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 3. ติดตั้ง Dependencies
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 4. ตั้งค่า Environment Variables
+คัดลอกไฟล์ตัวอย่างและแก้ไขค่าต่างๆ ให้ถูกต้อง
+```bash
+cp .env.example .env
+```
+เปิดไฟล์ `.env` และตั้งค่า:
+- `DATABASE_URL`: URL สำหรับเชื่อมต่อฐานข้อมูล (ถ้าใช้ Docker ตามโปรเจกต์นี้ ค่าเริ่มต้นคือ `postgresql://admin:12345678@localhost:6000/flash_tool_db?schema=public`)
+- `NEXTAUTH_SECRET`: รหัสลับสำหรับระบบ Token (สร้างใหม่ได้ด้วยคำสั่ง `openssl rand -base64 32`)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 5. เริ่มต้นใช้งาน Database (Docker)
+รันฐานข้อมูล PostgreSQL ผ่าน Docker Compose:
+```bash
+docker-compose up -d
+```
+หลังจากนั้นรันคำสั่งสร้างตารางในฐานข้อมูล:
+```bash
+npx prisma db push
+```
 
-## Learn More
+### 6. เริ่มรันแอปพลิเคชัน
+```bash
+npm run dev
+```
+เข้าใช้งานได้ที่: `http://localhost:3000`
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📅 แผนการพัฒนาในอนาคต (Future Updates)
+- [ ] **Advanced Flashing:** ระบบอัปโหลดและ Flash ไฟล์ Firmware ขนาดใหญ่ (.img, .bin)
+- [ ] **More Protocols:** เพิ่มการรองรับโหมด **EDL (Qualcomm)** และ **BROM (MediaTek)**
+- [ ] **Auto Magisk Patcher:** ระบบดึงไฟล์ boot.img มา Patch Magisk และ Root ให้อัตโนมัติ
+- [ ] **Firmware Library:** คลังดาวน์โหลด Firmware ศูนย์ที่อัปเดตตลอดเวลา
+- [ ] **Payment Integration:** ระบบเติมเครดิตผ่าน PromptPay และ Stripe
+- [ ] **Multi-language:** รองรับการเปลี่ยนภาษา (ไทย/อังกฤษ) ทั่วทั้งแอปพลิเคชัน
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 👤 ผู้พัฒนา (Developer)
+- **GitHub:** [@Homiez09](https://github.com/Homiez09)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+*หมายเหตุ: โปรแกรมนี้พัฒนาขึ้นเพื่อวัตถุประสงค์ทางการศึกษาและสำหรับช่างเทคนิคที่เชี่ยวชาญเท่านั้น การใช้งานมีความเสี่ยงต่อข้อมูลในตัวเครื่อง โปรดใช้งานด้วยความระมัดระวัง*
