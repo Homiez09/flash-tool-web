@@ -1,4 +1,4 @@
-# Project: Flash Tool Pro (v0.7.0 Alpha)
+# Project: Flash Tool Pro (v0.9.0 Alpha)
 
 ## Project Overview
 Flash Tool Pro is a professional, universal web-based mobile repair and flashing utility. It allows technicians to perform software maintenance on mobile devices (e.g., Flash ROM, Unlock Bootloader, Bypass FRP, Fix Bootloop) directly through a web browser using the **WebUSB API**.
@@ -19,21 +19,20 @@ All API endpoints and security protocols are documented in `API.md`.
 
 ## Roadmap & Progress
 
-### v0.1.0 - v0.6.0 Alpha (Completed)
-- Foundation, Auth, Credit System, WebUSB integration, Chunked Transfer, Cloud Firmware Sync, Admin Dashboard, and History Tracking.
+### v0.1.0 - v0.8.0 Alpha (Completed)
+- Foundation, Auth, Credit System, WebUSB integration, Chunked Transfer, Cloud Firmware Sync, Admin Dashboard, and Firmware Catalog.
 
-### v0.7.0 Alpha (Current - Completed)
-- **UI Refinement & Root Integration:**
-  - **Compact UI Overhaul:** Maintenance cards and action buttons resized for better usability and consistency.
-  - **Auto Magisk Root:** Automated patching and flashing of `boot.img` via a dedicated one-click tool.
-  - **Dynamic Config Integration:** UI now correctly responds to Admin-set pricing and feature toggles.
-  - **Real History Dashboard:** Users can view their real transaction history and export session logs.
-  - **Samsung Detection:** Enhanced hardware specs detection specifically for Samsung handsets.
+### v0.9.0 Alpha (Current - Completed)
+- **Samsung Specialized Protocol:**
+  - Initial implementation of **Samsung Odin/Loke** protocol handler (`src/lib/odin.ts`).
+  - **PIT Interface:** Support for reading Partition Information Table (PIT) from Samsung devices in Download Mode.
+  - **Odin Handshake:** Basic communication startup for Samsung-specific hardware.
+  - **Context-Aware Reboot:** System automatically uses Odin reboot or Fastboot reboot based on chipset detection.
+- **Maintenance Tools v2:** Integration of Samsung-specific tools into the main workflow.
 
-### v0.8.0 Alpha (Planned)
-- Implementation of Samsung Odin protocol (PIT/Tar flashing).
-- Firmware Cloud Catalog (Search and direct stream flash).
+### v0.9.5 Alpha (Planned)
+- Admin Firmware Management (Add/Edit/Delete Firmware from Web UI).
 
-### v1.0.0 (Release)
+### v1.0.0 (Release Candidate)
 - Stable release after user verification.
 - Payment gateway integration (PromptPay/Stripe).

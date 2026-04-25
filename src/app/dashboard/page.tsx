@@ -200,10 +200,18 @@ export default function DashboardPage() {
     if (!connectedUsbDevice) return;
     setIsProcessing(true);
     try {
-      const fb = new FastbootDevice(connectedUsbDevice);
-      await fb.init();
-      await fb.reboot();
-      addLog("Reboot command sent");
+      if (deviceSpecs?.chipset === "Samsung") {
+         const { OdinDevice } = await import("@/lib/odin");
+         const odin = new OdinDevice(connectedUsbDevice);
+         await odin.init();
+         await odin.reboot();
+         addLog("Samsung Odin Reboot command sent");
+      } else {
+        const fb = new FastbootDevice(connectedUsbDevice);
+        await fb.init();
+        await fb.reboot();
+        addLog("Fastboot Reboot command sent");
+      }
       toast.success("Reboot command sent");
     } catch (e: any) {
       addLog(`Error: ${e.message}`);
@@ -213,12 +221,28 @@ export default function DashboardPage() {
     }
   };
 
+  const handleReadPIT = async () => {
+    if (!connectedUsbDevice) return;
+    setIsProcessing(true);
+    addLog("Reading Samsung PIT (Partition Information Table)...");
+    try {
+      const tools = new MaintenanceTools(connectedUsbDevice);
+      const pit = await tools.getSamsungPIT();
+      addLog(`PIT Read Success: ${pit.byteLength} bytes received.`);
+      toast.success("PIT Data Read Successful");
+    } catch (e: any) {
+      addLog(`PIT Error: ${e.message}`);
+      toast.error("Failed to read PIT");
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
   const handleAutoRoot = async () => {
+    const cost = sysConfig.prices.root;
     if (!sysConfig.features.root) { toast.error("ฟีเจอร์นี้ยังไม่เปิดใช้งาน"); return; }
     if (!connectedUsbDevice) { toast.error("กรุณาเชื่อมต่ออุปกรณ์ก่อน"); return; }
     if (!flashFile) { toast.error("กรุณาเลือกไฟล์ boot.img ต้นฉบับก่อน"); return; }
-
-    const cost = sysConfig.prices.root;
     if ((session?.user?.credits || 0) < cost) { toast.error(`เครดิตไม่เพียงพอ (ต้องการ ${cost} Credits)`); return; }
 
     setIsProcessing(true);
@@ -355,6 +379,9 @@ export default function DashboardPage() {
                           <Button variant="outline" size="sm" className="gap-2 bg-white rounded-2xl h-12 px-6 font-black text-[10px] uppercase border-gray-100 cursor-pointer shadow-sm hover:shadow-md transition-all" onClick={handleReboot} disabled={isProcessing}><RefreshCw className={cn("w-3 h-3", isProcessing && "animate-spin")} /> Reboot</Button>
                           <Button variant="outline" size="sm" className="gap-2 bg-white rounded-2xl h-12 px-6 font-black text-[10px] uppercase border-orange-100 text-orange-700 hover:bg-orange-50 cursor-pointer shadow-sm hover:shadow-md transition-all" onClick={() => handleMaintenance("unlock", sysConfig.prices.unlock)} disabled={isProcessing || !sysConfig.features.unlock}><Unlock className="w-4 h-4" /> Unlock BL</Button>
                           <Button variant="outline" size="sm" className="gap-2 bg-white rounded-2xl h-12 px-6 font-black text-[10px] uppercase border-red-100 text-red-700 hover:bg-red-50 cursor-pointer shadow-sm hover:shadow-md transition-all" onClick={() => handleMaintenance("frp", sysConfig.prices.frp)} disabled={isProcessing || !sysConfig.features.frp}><Key className="w-4 h-4" /> Bypass FRP</Button>
+                          {deviceSpecs?.chipset === "Samsung" && (
+                             <Button variant="outline" size="sm" className="gap-2 bg-white rounded-2xl h-12 px-6 font-black text-[10px] uppercase border-blue-200 text-blue-700 hover:bg-blue-50 cursor-pointer shadow-sm" onClick={handleReadPIT} disabled={isProcessing}><FileCode className="w-4 h-4" /> PIT Interface</Button>
+                          )}
                         </CardContent>
                       </Card>
                       <Card className="border border-green-100 bg-green-50/20 shadow-sm rounded-3xl overflow-hidden">

@@ -1,4 +1,5 @@
 import { FastbootDevice } from "./fastboot";
+import { OdinDevice } from "./odin";
 
 export interface DeviceSpecs {
   chipset: "Qualcomm" | "MediaTek" | "Samsung" | "Unknown";
@@ -9,14 +10,25 @@ export interface DeviceSpecs {
 }
 
 export class MaintenanceTools {
+  private device: USBDevice;
   private fb: FastbootDevice;
 
   constructor(device: USBDevice) {
+    this.device = device;
     this.fb = new FastbootDevice(device);
   }
 
   async init() {
     await this.fb.init();
+  }
+
+  /**
+   * Samsung Specific: Read PIT Data
+   */
+  async getSamsungPIT(): Promise<ArrayBuffer> {
+    const odin = new OdinDevice(this.device);
+    await odin.init();
+    return await odin.readPIT();
   }
 
   async getDeviceSpecs(): Promise<DeviceSpecs> {
