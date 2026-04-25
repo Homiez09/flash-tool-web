@@ -78,21 +78,21 @@ export default async function HomePage() {
         {/* Features Grid */}
         <section className="px-6 py-24 max-w-6xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="p-8 bg-white border rounded-2xl space-y-4">
+            <div className="p-8 bg-white border-2 border-blue-50 rounded-2xl shadow-xl shadow-blue-600/5 space-y-4">
               <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
                 <Zap className="w-6 h-6 text-blue-600" />
               </div>
               <h3 className="text-xl font-bold">Stable Flashing</h3>
               <p className="text-gray-500">รองรับการติดตั้ง Firmware ผ่าน WebUSB API ทำงานรวดเร็วและตรวจสอบข้อมูลได้แบบ Real-time</p>
             </div>
-            <div className="p-8 bg-white border rounded-2xl space-y-4">
+            <div className="p-8 bg-white border-2 border-green-50 rounded-2xl shadow-xl shadow-green-600/5 space-y-4">
               <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
                 <Unlock className="w-6 h-6 text-green-600" />
               </div>
               <h3 className="text-xl font-bold">Maintenance Tools</h3>
               <p className="text-gray-500">รวมสคริปต์สำหรับการบำรุงรักษา เช่น การปลดล็อก Bootloader และการกู้คืนระบบเบื้องต้น</p>
             </div>
-            <div className="p-8 bg-white border rounded-2xl space-y-4">
+            <div className="p-8 bg-white border-2 border-purple-50 rounded-2xl shadow-xl shadow-purple-600/5 space-y-4">
               <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center">
                 <CreditCard className="w-6 h-6 text-purple-600" />
               </div>
