@@ -51,3 +51,29 @@ export async function POST(req: Request) {
     return NextResponse.json({ message: "Error" }, { status: 500 });
   }
 }
+
+// Admin only: Delete firmware
+export async function DELETE(req: Request) {
+  const session = await getServerSession(authOptions);
+
+  if (session?.user?.role !== "ADMIN") {
+    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+  }
+
+  try {
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get("id");
+
+    if (!id) {
+      return NextResponse.json({ message: "ID required" }, { status: 400 });
+    }
+
+    await prisma.firmware.delete({
+      where: { id },
+    });
+
+    return NextResponse.json({ message: "Success" });
+  } catch (error) {
+    return NextResponse.json({ message: "Error" }, { status: 500 });
+  }
+}
